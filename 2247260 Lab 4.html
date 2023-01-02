@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+  
+<head>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto+Mono&display=swap" rel="stylesheet"> 
+    <title>To Do List</title>
+    <style>
+        button{
+            background-color: #053e1b;  
+            color: white;  
+            padding: 12px 20px;  
+            margin: 8px 10px;  
+            border: none;  
+            cursor: pointer;  
+            width: 15%;  
+            opacity: 0.9;  
+            font-family: 'Roboto Mono', monospace;
+            font-size: 18px;
+        }
+        table{
+            border-collapse: collapse;
+            margin: auto;
+        }
+        tr,th,td{
+            padding: 10px 20px;
+        }
+        #btns{
+            margin:  auto;
+            align-items: center;
+            text-align: center;
+        }
+        th{
+           
+            font-size: 20px;
+        }
+        h1{
+            margin-left:700px;
+        }
+    </style>
+
+
+<body style="background-color: #d8dea7;">
+    <div id="btns">
+        <button type="button" onclick="loadXMLDoc()">
+            View Menu
+        </button>
+        <button type="button" onclick="deleteBlock()">
+            Delete Block
+        </button>
+        <button type="button" onclick="deleteNode()">
+            Delete Node
+        </button>
+        <button type="button" onclick="changeNodeVal()">
+            Change Node Value
+        </button>
+        <button type="button" onclick="addNewElement()">
+            Add New Element
+        </button>
+    </div>
+
+    <h1 >Menu</h1>
+    
+    <br><br>
+    <div>
+        <table border="1px solid black;" id="tableID"></table>
+    </div>
+    <div>
+        <span id="resp"></span>
+    </div>
+
+    <!--JavaScript-->
+    <script>
+        let xmlDoc;
+        var rootElement;
+        var ch=0;
+        var fileName = document.getElementById("filename");
+        console.log(fileName);
+        var xmlhttp = new XMLHttpRequest();
+        function loadXMLDoc() {
+            
+            xmlhttp.onreadystatechange = function () {
+                if (this.readyState == 4 && this.status == 200) {
+                    xmlDoc = this.responseXML;
+                    rootElement = xmlDoc.documentElement;
+                    
+                    console.log(xmlDoc);
+                    displayXML();
+                    // render();
+                }
+            };
+  
+            xmlhttp.open("GET","2247260 Lab 4.xml", true);
+            xmlhttp.send();
+        }
+
+        function displayXML(){
+            let xmlDoc = rootElement;
+            let i;
+            let table = `<tr><th>ID</th><th>Sender</th><th>Reciver</th><th>Distance</th><th>Content</th><th>Instructions</th></tr>`
+            let element = xmlDoc.getElementsByTagName('order');
+
+            for(i=0;i<element.length;i++){
+                table+= `<tr><td>${element[i].getElementsByTagName('id')[0].childNodes[0].nodeValue}</td>
+                  
+                    <td>${element[i].getElementsByTagName('sender')[0].childNodes[0].nodeValue}</td>
+                    <td>${element[i].getElementsByTagName('reciver')[0].childNodes[0].nodeValue}</td>
+                    <td>${element[i].getElementsByTagName('distance')[0].childNodes[0].nodeValue}</td>
+                    <td>${element[i].getElementsByTagName('content')[0].childNodes[0].nodeValue}</td>
+                    <td>${element[i].getElementsByTagName('instructions')[0].childNodes[0].nodeValue}</td>`
+                    
+            }
+
+            document.getElementById('tableID').innerHTML = table;
+        
+        }
+
+        function deleteBlock(){
+            let currNode = xmlDoc.childNodes[1]; //grocery tag
+            let removedNode = currNode.removeChild(currNode.childNodes[1]); //first item tag removed
+            // render();
+            console.log(removedNode);
+            
+            displayXML();
+        }
+
+        function deleteNode(){
+            let currNode = rootElement.childNodes[1];
+            let removedNode = currNode.removeChild(currNode.childNodes[1]);
+            displayXML();
+            console.log(removedNode.nodeName);
+        }
+
+        function changeNodeVal(){
+            let nodeName = prompt("Enter Node to change its value", "node name");
+            let currNode = xmlDoc.getElementsByTagName(nodeName)[0].childNodes[0];
+            let newVal = prompt("Enter new value", "new node value");
+            console.log(newVal);
+            currNode.nodeValue = newVal;
+            console.log(currNode.nodeValue);
+            displayXML();
+        }
+
+        function addNewElement() {
+            ch=1;
+            let elementName = prompt("Give the element's name", "element name");
+            let newElement = document.createElement(elementName);
+            let elementVal = prompt("Give new element's value", "new value");
+            let newText = document.createTextNode(elementVal);
+            newElement.appendChild(newText);
+            let currNode = prompt("In which node do you want to append the element in: ", "write node name");
+            let affNode = xmlDoc.getElementsByTagName(currNode)[0];
+            affNode.appendChild(newElement);
+            console.log(affNode);
+            displayXML();
+        }
+  
+      
+    </script>
+</body>
+  
+</html>

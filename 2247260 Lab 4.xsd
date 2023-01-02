@@ -1,0 +1,49 @@
+<?xml version="1.0"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema">
+    <xs:element name="courier">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element name="order" maxOccurs="unbounded">
+                    <xs:complexType>
+                        <xs:sequence>
+                            <xs:element name="id" type="xs:integer"/>
+                            <xs:element name="sender" type="xs:string"/>
+                            <xs:element name="reciver" type="xs:string"/>
+                            <xs:element name="distance">
+                                <xs:simpleType>
+                                    <xs:restriction base="xs:string">
+                                        <xs:pattern value="[a-z0-9 ]{6}" />
+                                    </xs:restriction>
+                                </xs:simpleType>
+                            </xs:element>
+                            <xs:element name="time">
+                                <xs:simpleType>
+                                    <xs:restriction base="xs:string">
+                                        <xs:pattern value="[a-z0-9 ]{8}" />
+                                    </xs:restriction>
+                                </xs:simpleType>
+                            </xs:element>
+                            <xs:element name="content">
+                                <xs:simpleType>
+                                    <xs:restriction base="xs:string">
+                                        <xs:enumeration value="Documents | Books"/>
+                                        <xs:enumeration value="Clothes | Accessories"/>
+                                        <xs:enumeration value="Food | Flowers"/>
+                                        <xs:enumeration value="Household Items"/>
+                                        <xs:enumeration value="Sports and Other Equipment"/>
+                                        <xs:enumeration value="Electronic Items"/>
+                                        <xs:enumeration value="Medicines"/>
+                                        <xs:enumeration value="Items for Repair"/>
+                                        <xs:enumeration value="Business Deliveries"/>
+                                        <xs:enumeration value="Other"/>
+                                    </xs:restriction>
+                                </xs:simpleType>
+                            </xs:element>
+                            <xs:element name="instructions" type="xs:string"/>
+                        </xs:sequence>
+                    </xs:complexType>
+                </xs:element>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+</xs:schema>
